@@ -6,7 +6,6 @@ namespace NuSave.Core
   using System.Linq;
   using System.Net;
   using System.Threading;
-  using Konsole;
   using NuGet.Common;
   using NuGet.Protocol;
   using NuGet.Protocol.Core.Types;
@@ -43,8 +42,6 @@ namespace NuSave.Core
 
       Log("Downloading ⚡️", ConsoleColor.Yellow);
 
-      var pb = new ProgressBar(PbStyle.SingleLine, 100);
-
       int counter = 0;
       foreach (var dependency in _dependencyResolver.Dependencies)
       {
@@ -52,8 +49,6 @@ namespace NuSave.Core
         {
           continue;
         }
-
-        pb.Refresh(counter * 100 / _dependencyResolver.Dependencies.Count(), $"{dependency.Id} {dependency.Version} 📦");
         counter++;
 
         // We keep retrying forever until the user will press Ctrl-C
@@ -87,7 +82,7 @@ namespace NuSave.Core
         }
       }
 
-      pb.Refresh(100, "Done 🎉");
+      Log("Done");
     }
 
     private void Log(string message)
